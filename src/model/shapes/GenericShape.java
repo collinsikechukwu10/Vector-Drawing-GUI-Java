@@ -34,6 +34,7 @@ public abstract class GenericShape implements Serializable {
         this.endPoint = endPoint;
     }
 
+    public abstract void setEndPoint(Point2D endPoint, boolean shiftDown);
 
     public Color getColor() {
         return this.color;

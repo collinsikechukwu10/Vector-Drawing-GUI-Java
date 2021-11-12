@@ -59,11 +59,15 @@ public class DrawAreaModel {
         GenericShape shape;
         if (getShapeToPrepare() != null) {
             Class<? extends GenericShape> bluePrint = blueprints.get(getShapeToPrepare().toLowerCase());
+            System.out.println(bluePrint);
+
             try {
                 shape = bluePrint.getConstructor(Color.class, Point2D.class, Point2D.class, boolean.class).newInstance(
                         getCurrentColor(), startPoint, startPoint, isShouldFill()
                 );
                 // add shape to existing and inform app.
+                System.out.println(shape);
+
                 List<GenericShape> previousDrawnShapes = getDrawnShapes();
                 this.drawnShapes.add(shape);
                 selectedShapeIndex = this.drawnShapes.size() - 1;
@@ -199,9 +203,9 @@ public class DrawAreaModel {
         }
     }
 
-    public void setSelectedShapeEndPoint(Point2D endPoint) {
+    public void setSelectedShapeEndPoint(Point2D endPoint, boolean shiftDown) {
         if (hasSelected()) {
-            getSelectedShape().setEndPoint(endPoint);
+            getSelectedShape().setEndPoint(endPoint, shiftDown);
             update();
         }
     }

@@ -27,7 +27,6 @@ public class DrawingAreaController extends HistoryController {
 
     public void controlInitShape(Point2D startPoint) {
         this.model.addShape(startPoint);
-//        this.model.addShape(shape);
     }
 
     public void controlUndo() {
@@ -43,15 +42,16 @@ public class DrawingAreaController extends HistoryController {
     }
 
     public void controlSelectedShapeColor(Color color) {
-        ShapeController.getController(getSelectedShape()).controlColor(color);
+        this.model.setSelectedShapeColor(color);
     }
 
     public void controlSelectedShapeFill(boolean fill) {
-        ShapeController.getController(getSelectedShape()).controlFill(fill);
+        this.model.setSelectedShapeFill(fill);
+
     }
 
-    public void controlSelectedShapeEndPoint(Point2D endpoint) {
-        ShapeController.getController(getSelectedShape()).controlEndPoint(endpoint);
+    public void controlSelectedShapeEndPoint(Point2D endpoint, boolean shiftDown) {
+        this.model.setSelectedShapeEndPoint(endpoint,shiftDown);
     }
 
     public void controlSetDrawnShapes(List<GenericShape> shapes) {

@@ -43,8 +43,7 @@ public class DrawingArea extends JPanel {
             Point2D endPoint = shapeToDraw.getEndPoint();
             Shape shape1 = new Line2D.Double(startPoint.getX(), startPoint.getY(), (endPoint.getX() - startPoint.getX()), (endPoint.getY() - startPoint.getY()));
             Shape shape2 = new Line2D.Double(startPoint.getX(), (endPoint.getY() - startPoint.getY()), (endPoint.getX() - startPoint.getX()), startPoint.getY());
-            Area area = new Area();
-            area.add(new Area(shape1));
+            Area area = new Area(shape1);
             area.add(new Area(shape2));
             shape = area;
         }

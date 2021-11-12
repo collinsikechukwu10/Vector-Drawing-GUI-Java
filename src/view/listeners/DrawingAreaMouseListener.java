@@ -16,13 +16,16 @@ public class DrawingAreaMouseListener extends MouseInputAdapter {
     @Override
     public void mouseDragged(MouseEvent e) {
         super.mouseDragged(e);
-        drawingAreaController.controlSelectedShapeEndPoint(e.getPoint());
+        // we need to check if shift is activated, if so , snap snappable shapes like rectangles to squares and ellipses to circles
+        drawingAreaController.controlSelectedShapeEndPoint(e.getPoint(),e.isShiftDown());
     }
 
 
     @Override
     public void mousePressed(MouseEvent e) {
         super.mousePressed(e);
+        System.out.println("Pressed");
+
         //create shape
         if(drawingAreaController.hasBluePrint() && drawingAreaController.getSelectedShape()==null){
             drawingAreaController.controlInitShape(e.getPoint());
@@ -32,5 +35,9 @@ public class DrawingAreaMouseListener extends MouseInputAdapter {
     @Override
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
+//        this.drawingAreaController.controlSetBlueprint(null);
+        System.out.println("Released");
+        // we need to deactivate the button
+
     }
 }

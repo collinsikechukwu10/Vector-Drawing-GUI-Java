@@ -32,6 +32,7 @@ public class VectorDrawingView implements PropertyChangeListener {
         mainFrame.setLayout(new GridLayout(1, 2));
         this.drawingAreaView = new DrawingArea(mainFrame, drawingAreaController);
         this.drawingAreaView.addMouseListener(new DrawingAreaMouseListener(drawingAreaController));
+        this.drawingAreaView.addMouseMotionListener(new DrawingAreaMouseListener(drawingAreaController));
 
         mainFrame.setJMenuBar(createJMenuBar(drawingAreaController));
 
@@ -128,7 +129,8 @@ public class VectorDrawingView implements PropertyChangeListener {
     public ArrayList<JToggleButton> createAllShapeButtons(DrawingAreaController controller) {
         ArrayList<JToggleButton> shapeButtons = new ArrayList();
         List<String> shapeName = List.of("Line", "Cross", "Ellipse", "Rectangle");
-        ActionListener shapeSelectListener = createShapeSelectListener(controller);
+        ActionListener shapeSelectListener = createtoolBarShapeSelectListener(controller);
+
         shapeName.forEach(name -> {
             JToggleButton button = new JToggleButton(name);
             button.addActionListener(shapeSelectListener);
@@ -146,17 +148,17 @@ public class VectorDrawingView implements PropertyChangeListener {
         });
     }
 
-    private ActionListener createShapeSelectListener(DrawingAreaController controller) {
+    private ActionListener createtoolBarShapeSelectListener(DrawingAreaController controller) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 AbstractButton button = (AbstractButton) actionEvent.getSource();
-                if (controller.hasBluePrint()){
-                    JOptionPane.showMessageDialog(mainFrame,"You cannot select more than 1 shape to draw");
-                    button.setSelected(false);
-                    return;
-                }
                 if (button.isSelected()) {
+                    if (controller.hasBluePrint()){
+                        button.setSelected(false);
+                        JOptionPane.showMessageDialog(mainFrame,"You cannot select more than 1 shape to draw");
+                        return;
+                    }
                     // this should remove a selected shape and allow for creation of a new shape
                     controller.controlDeselect();
                     // set the blueprint of the shape you want to create
@@ -167,6 +169,7 @@ public class VectorDrawingView implements PropertyChangeListener {
                     // this should allow for selection of existing shapes
 
                 }
+
             }
         };
     }
