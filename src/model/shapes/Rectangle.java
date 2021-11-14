@@ -1,5 +1,7 @@
 package model.shapes;
 
+import model.shapes.generic.ShiftKeyEnabledShape;
+
 import java.awt.*;
 import java.awt.geom.Point2D;
 

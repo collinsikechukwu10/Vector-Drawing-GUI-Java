@@ -1,7 +1,7 @@
 package view.io;
 
-import controller.listeners.DrawingAreaController;
-import model.shapes.GenericShape;
+import controller.DrawingAreaController;
+import model.shapes.generic.GenericShape;
 
 import javax.swing.*;
 import java.awt.event.ActionListener;
@@ -50,7 +50,7 @@ public class DrawingImporterExporter {
 
             if (userSelection == JFileChooser.APPROVE_OPTION) {
                 File fileToLoad = fileChooser.getSelectedFile();
-                System.out.println("LOading file..." + fileToLoad.getAbsolutePath());
+                System.out.println("Loading file..." + fileToLoad.getAbsolutePath());
                 // get file history
                 try {
                     FileInputStream fis = new FileInputStream(fileToLoad);

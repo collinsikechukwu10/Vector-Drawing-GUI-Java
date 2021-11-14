@@ -1,4 +1,4 @@
-import controller.listeners.DrawingAreaController;
+import controller.DrawingAreaController;
 import model.DrawAreaModel;
 import view.VectorDrawingView;
 

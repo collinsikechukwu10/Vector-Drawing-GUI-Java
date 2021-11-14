@@ -1,7 +1,9 @@
 package model;
 
+import config.ApplicationConfig;
 import model.shapes.*;
 import model.shapes.Rectangle;
+import model.shapes.generic.GenericShape;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
@@ -20,14 +22,16 @@ public class DrawAreaModel {
     private LocalDateTime lastChangedOn = LocalDateTime.now();
     private final Map<String, Class<? extends GenericShape>> blueprints = new HashMap<>();
     private String shapeToPrepare = null;
+    private final Stack<? extends GenericShape> history = new Stack<>();
 
 
     public DrawAreaModel() {
+
         // les set a default color
-        this.currentColor = Color.BLACK;
+        this.currentColor = ApplicationConfig.DEFAULT_SHAPE_COLOR;
         this.shouldFill = false;
         // prepare blueprints
-        List.of(Line.class, Rectangle.class, Ellipse.class, Cross.class).forEach(aClass -> {
+        List.of(Line.class, Rectangle.class, Ellipse.class, Cross.class,MurrayPolygon.class).forEach(aClass -> {
             blueprints.put(aClass.getSimpleName().toLowerCase(), aClass);
         });
 
@@ -62,12 +66,10 @@ public class DrawAreaModel {
             System.out.println(bluePrint);
 
             try {
+                // initialize shape with both the start and end point at the same location
                 shape = bluePrint.getConstructor(Color.class, Point2D.class, Point2D.class, boolean.class).newInstance(
                         getCurrentColor(), startPoint, startPoint, isShouldFill()
                 );
-                // add shape to existing and inform app.
-                System.out.println(shape);
-
                 List<GenericShape> previousDrawnShapes = getDrawnShapes();
                 this.drawnShapes.add(shape);
                 selectedShapeIndex = this.drawnShapes.size() - 1;
@@ -94,7 +96,11 @@ public class DrawAreaModel {
 
     public void clearDrawArea() {
         List<GenericShape> previousDrawnShapes = getDrawnShapes();
+        System.out.println(previousDrawnShapes);
         this.drawnShapes.clear();
+        System.out.println(this.drawnShapes);
+
+        this.selectedShapeIndex = -1;
         // we want to repaint after this soooooo
         notifier.firePropertyChange("drawnShapes", previousDrawnShapes, this.drawnShapes);
     }
@@ -132,12 +138,6 @@ public class DrawAreaModel {
     public void selectShape(GenericShape genericShape) {
         if (this.drawnShapes.contains(genericShape)) {
             this.selectedShapeIndex = this.drawnShapes.indexOf(genericShape);
-        }
-    }
-
-    public void selectShape(int selectedShapeIndex) {
-        if (selectedShapeIndex < this.drawnShapes.size()) {
-            this.selectedShapeIndex = selectedShapeIndex;
         }
     }
 
@@ -192,13 +192,6 @@ public class DrawAreaModel {
     public void setSelectedShapeFill(boolean fill) {
         if (hasSelected()) {
             getSelectedShape().setFill(fill);
-            update();
-        }
-    }
-
-    public void setSelectedShapeStartPoint(Point2D startPoint) {
-        if (hasSelected()) {
-            getSelectedShape().setStartPoint(startPoint);
             update();
         }
     }

@@ -1,8 +1,7 @@
-package controller.listeners;
+package controller;
 
-import history.HistoryController;
 import model.DrawAreaModel;
-import model.shapes.GenericShape;
+import model.shapes.generic.GenericShape;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -16,6 +15,9 @@ public class DrawingAreaController extends HistoryController {
         this.model = drawAreaModel;
     }
 
+    public boolean isEmpty(){
+        return getDrawnShapes().isEmpty();
+    }
 
     public void controlSelectShape(GenericShape shape) {
         this.model.selectShape(shape);

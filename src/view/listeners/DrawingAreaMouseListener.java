@@ -1,6 +1,6 @@
 package view.listeners;
 
-import controller.listeners.DrawingAreaController;
+import controller.DrawingAreaController;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseEvent;

@@ -1,6 +1,6 @@
-package controller.listeners;
+package controller;
 
-import model.shapes.GenericShape;
+import model.shapes.generic.GenericShape;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

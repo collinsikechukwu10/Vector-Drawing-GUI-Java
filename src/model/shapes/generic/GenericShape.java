@@ -1,4 +1,4 @@
-package model.shapes;
+package model.shapes.generic;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -10,7 +10,7 @@ public abstract class GenericShape implements Serializable {
     private Point2D startPoint;
     private Point2D endPoint;
 
-    GenericShape(Color color, Point2D startPoint, Point2D endPoint, boolean fill) {
+    public GenericShape(Color color, Point2D startPoint, Point2D endPoint, boolean fill) {
         this.color = color;
         this.startPoint = startPoint;
         this.endPoint = endPoint;
