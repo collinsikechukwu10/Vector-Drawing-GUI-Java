@@ -3,7 +3,14 @@ package model.shapes.generic;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 import java.io.Serializable;
+import java.lang.reflect.InvocationTargetException;
 
+/**
+ * Generic shape class.
+ * This is the base class for all implemented shapes to be drawn.
+ *
+ * @author 210032207
+ */
 public abstract class GenericShape implements Serializable {
     private Color color;
     private boolean fill;
@@ -15,6 +22,15 @@ public abstract class GenericShape implements Serializable {
         this.startPoint = startPoint;
         this.endPoint = endPoint;
         this.fill = fill;
+    }
+
+    public GenericShape copy() {
+        try {
+            return this.getClass().getConstructor(Color.class, Point2D.class, Point2D.class, boolean.class).newInstance(
+                    getColor(), getStartPoint(), getEndPoint(), isFill());
+        } catch (Exception e) {
+            return null;
+        }
     }
 
 
@@ -34,7 +50,15 @@ public abstract class GenericShape implements Serializable {
         this.endPoint = endPoint;
     }
 
-    public abstract void setEndPoint(Point2D endPoint, boolean shiftDown);
+    /**
+     * Overide this method to allow for shift key customized actions
+     *
+     * @param endPoint
+     * @param shiftDown
+     */
+    public void setEndPoint(Point2D endPoint, boolean shiftDown) {
+        setEndPoint(endPoint);
+    }
 
     public Color getColor() {
         return this.color;

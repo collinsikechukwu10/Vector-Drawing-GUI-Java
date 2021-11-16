@@ -1,18 +1,13 @@
 package view;
 
 import config.ApplicationConfig;
-import controller.DrawingAreaController;
+import controller.DrawAreaController;
 import model.DrawAreaModel;
-import view.io.DrawingImporterExporter;
+import view.listeners.DrawIOListener;
 import view.listeners.ApplicationHistoryListener;
 import view.listeners.DrawingAreaMouseListener;
 
 import javax.swing.*;
-import javax.swing.plaf.ToolBarUI;
-import javax.swing.plaf.metal.MetalButtonUI;
-import javax.swing.plaf.metal.MetalToolBarUI;
-import javax.swing.plaf.multi.MultiToolBarUI;
-import javax.swing.plaf.synth.SynthButtonUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -28,21 +23,21 @@ public class VectorDrawingView implements PropertyChangeListener {
     DrawingArea drawingAreaView;
     JFrame mainFrame;
 
-    public VectorDrawingView(DrawAreaModel drawAreaModel, DrawingAreaController drawingAreaController) {
+    public VectorDrawingView(DrawAreaModel drawAreaModel, DrawAreaController drawAreaController) {
         // create a frame
         this.mainFrame = new JFrame();
         this.drawAreaModel = drawAreaModel;
         this.mainFrame.setLayout(new BorderLayout());
-        this.drawingAreaView = new DrawingArea(drawingAreaController);
+        this.drawingAreaView = new DrawingArea(drawAreaController);
 
         // add key and mouse listeners to the gui.
-        this.mainFrame.addKeyListener(new ApplicationHistoryListener(drawingAreaController));
-        this.drawingAreaView.addMouseListener(new DrawingAreaMouseListener(drawingAreaController));
-        this.drawingAreaView.addMouseMotionListener(new DrawingAreaMouseListener(drawingAreaController));
+        this.mainFrame.addKeyListener(new ApplicationHistoryListener(drawAreaController));
+        this.drawingAreaView.addMouseListener(new DrawingAreaMouseListener(drawAreaController));
+        this.drawingAreaView.addMouseMotionListener(new DrawingAreaMouseListener(drawAreaController));
 
         // add sub components to the main frame
-        mainFrame.setJMenuBar(createJMenuBar(drawingAreaController));
-        mainFrame.getContentPane().add(createToolBar(drawingAreaController),BorderLayout.NORTH);
+        mainFrame.setJMenuBar(createJMenuBar(drawAreaController));
+        mainFrame.getContentPane().add(createToolBar(drawAreaController),BorderLayout.NORTH);
         mainFrame.getContentPane().add(this.drawingAreaView,BorderLayout.CENTER);
 
         // set model property change listener
@@ -57,7 +52,7 @@ public class VectorDrawingView implements PropertyChangeListener {
     }
 
 
-    private JMenuBar createJMenuBar(DrawingAreaController controller) {
+    private JMenuBar createJMenuBar(DrawAreaController controller) {
         JMenuBar menuBar = new JMenuBar();
         JMenu menu = new JMenu("File");
         JMenuItem load = new JMenuItem("Load");
@@ -65,27 +60,27 @@ public class VectorDrawingView implements PropertyChangeListener {
         menu.setBackground(Color.ORANGE);
 
         // attach load listener and add the item to the menu
-        DrawingImporterExporter drawingImporterExporter = new DrawingImporterExporter(controller);
-        load.addActionListener(drawingImporterExporter.fileLoadListener(mainFrame));
+        DrawIOListener drawIOListener = new DrawIOListener(controller);
+        load.addActionListener(drawIOListener.fileLoadListener(mainFrame));
         menu.add(load);
         // attach save listener and add the item to the menu
-        saveAs.addActionListener(drawingImporterExporter.fileSaveListener(mainFrame));
+        saveAs.addActionListener(drawIOListener.fileSaveListener(mainFrame));
         menu.add(saveAs);
         menuBar.add(menu);
         return menuBar;
     }
 
-    private JToolBar createToolBar(DrawingAreaController controller) {
+    private JToolBar createToolBar(DrawAreaController controller) {
         JToolBar toolBar = new JToolBar();
         toolBar.setOrientation(SwingConstants.HORIZONTAL);
-        FlowLayout toolBarLayout = new FlowLayout();
-        toolBarLayout.setHgap(16);
-        toolBar.setLayout(toolBarLayout);
+//        FlowLayout toolBarLayout = new FlowLayout();
+//        toolBarLayout.setHgap(16);
+//        toolBar.setLayout(toolBarLayout);
         toolBar.add(createColorButton(controller));
         toolBar.add(createFillButton(controller));
-        toolBar.add(new JSeparator(SwingConstants.VERTICAL));
+//        toolBar.add(new JSeparator(SwingConstants.VERTICAL));
         createAllShapeButtons(controller).forEach(toolBar::add);
-        toolBar.add(new JSeparator(SwingConstants.VERTICAL));
+//        toolBar.add(new JSeparator(SwingConstants.VERTICAL));
         toolBar.add(createClearButton(controller));
         toolBar.add(createUndoButton(controller));
         toolBar.add(createRedoButton(controller));
@@ -93,7 +88,7 @@ public class VectorDrawingView implements PropertyChangeListener {
 
     }
 
-    public JButton createColorButton(DrawingAreaController controller){
+    public JButton createColorButton(DrawAreaController controller){
         JButton colorButton = new JButton("Color");
         colorButton.addActionListener(actionEvent -> {
             Color color = JColorChooser.showDialog(mainFrame, "Choose a color", Color.RED);
@@ -106,22 +101,24 @@ public class VectorDrawingView implements PropertyChangeListener {
         });
         return colorButton;
     }
-    public JButton createUndoButton(DrawingAreaController controller){
-        JButton undoButton  = new JButton("Undo");
+    public JButton createUndoButton(DrawAreaController controller){
+        JButton undoButton  = new JButton("Undo",ApplicationConfig.getIcon("undo"));
+        undoButton.setToolTipText("Undo");
         undoButton.addActionListener(actionEvent -> {
             controller.controlUndo();
         });
         return undoButton;
     }
-    public JButton createRedoButton(DrawingAreaController controller){
-        JButton redoButton  = new JButton("Redo");
+    public JButton createRedoButton(DrawAreaController controller){
+        JButton redoButton  = new JButton(ApplicationConfig.getIcon("redo"));
+        redoButton.setToolTipText("Redo");
         redoButton.addActionListener(actionEvent -> {
             controller.controlRedo();
         });
         return redoButton;
     }
 
-    public JButton createClearButton(DrawingAreaController controller){
+    public JButton createClearButton(DrawAreaController controller){
         JButton clearButton = new JButton("Clear");
         clearButton.addActionListener(actionEvent -> {
             controller.controlClearShapes();
@@ -129,7 +126,7 @@ public class VectorDrawingView implements PropertyChangeListener {
         return clearButton;
     }
 
-    public JToggleButton createFillButton(DrawingAreaController controller){
+    public JToggleButton createFillButton(DrawAreaController controller){
         JToggleButton fillButton = new JToggleButton("Fill");
         fillButton.addActionListener(actionEvent -> {
             AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();
@@ -147,7 +144,7 @@ public class VectorDrawingView implements PropertyChangeListener {
         return fillButton;
     }
 
-    public ArrayList<JToggleButton> createAllShapeButtons(DrawingAreaController controller) {
+    public ArrayList<JToggleButton> createAllShapeButtons(DrawAreaController controller) {
         ArrayList<JToggleButton> shapeButtons = new ArrayList<>();
         List<String> shapeName = List.of("Line", "Cross", "Ellipse", "Rectangle","Murray Polygon");
         ActionListener shapeSelectListener = createtoolBarShapeSelectListener(controller);
@@ -169,14 +166,20 @@ public class VectorDrawingView implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent event) {
-
         SwingUtilities.invokeLater(() -> {
             System.out.println("[" + event.getPropertyName() + "] old: "+event.getOldValue() + ", new: " + event.getNewValue());
             drawingAreaView.repaint();
         });
     }
 
-    private ActionListener createtoolBarShapeSelectListener(DrawingAreaController controller) {
+    public JLabel createInstructions(){
+        JLabel label = new JLabel();
+        label.setText("");
+        label.setHorizontalTextPosition(1);
+        return label;
+    }
+
+    private ActionListener createtoolBarShapeSelectListener(DrawAreaController controller) {
         return new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {

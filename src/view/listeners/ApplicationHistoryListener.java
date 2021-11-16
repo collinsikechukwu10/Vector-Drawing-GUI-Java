@@ -1,15 +1,14 @@
 package view.listeners;
 
-import controller.DrawingAreaController;
+import controller.DrawAreaController;
 
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseAdapter;
 
-public class ApplicationHistoryListener extends MouseAdapter implements KeyListener {
-    private DrawingAreaController drawingAreaController;
-    public ApplicationHistoryListener(DrawingAreaController drawingAreaController){
-        this.drawingAreaController = drawingAreaController;
+public class ApplicationHistoryListener implements KeyListener {
+    private final DrawAreaController drawAreaController;
+    public ApplicationHistoryListener(DrawAreaController drawAreaController){
+        this.drawAreaController = drawAreaController;
     }
     @Override
     public void keyTyped(KeyEvent keyEvent) {
@@ -18,9 +17,9 @@ public class ApplicationHistoryListener extends MouseAdapter implements KeyListe
     @Override
     public void keyPressed(KeyEvent keyEvent) {
         if(keyEvent.isShiftDown() && keyEvent.getKeyCode() == KeyEvent.VK_Z){
-            this.drawingAreaController.controlUndo();
+            this.drawAreaController.controlUndo();
         }else if(keyEvent.isShiftDown() && keyEvent.isControlDown() && keyEvent.getKeyCode() == KeyEvent.VK_Z){
-            this.drawingAreaController.controlRedo();
+            this.drawAreaController.controlRedo();
         }
     }
 

@@ -6,12 +6,9 @@ import java.util.Arrays;
 import java.util.PrimitiveIterator;
 
 public class MurrayPolygonCalculations {
-    int noOfXRadices;
-    int noOfYRadices;
-    int[] xRadices;
-    int[] yRadices;
     int width;
     int height;
+    private final ArrayList<Point2D> path = new ArrayList<Point2D>();
 
     public int getWidth() {
         return width;
@@ -21,17 +18,12 @@ public class MurrayPolygonCalculations {
         return height;
     }
 
-    public ArrayList<Point2D> getNextSegment() {
-        return nextSegment;
+    public ArrayList<Point2D> getPath() {
+        return path;
     }
 
-    private final ArrayList<Point2D> nextSegment = new ArrayList<Point2D>();
 
     public MurrayPolygonCalculations(int noOfXRadices, int noOfYRadices, int[] xRadices, int[] yRadices) {
-        this.noOfXRadices = noOfXRadices;
-        this.noOfYRadices = noOfYRadices;
-        this.xRadices = xRadices;
-        this.yRadices = yRadices;
         int maximumRadix = Math.max(noOfXRadices, noOfYRadices);
         int complexity = 2 * maximumRadix;
         int[] digits = new int[complexity + 1];
@@ -40,9 +32,13 @@ public class MurrayPolygonCalculations {
         Arrays.fill(digits, 0);
         Arrays.fill(radices, 1);
         Arrays.fill(parities, true);
-        getRadices(radices, noOfXRadices, noOfYRadices);
+        getRadices(radices, noOfXRadices, noOfYRadices,xRadices,yRadices);
         width = numberOfPoints(radices,0,2);
         height = numberOfPoints(radices,1,2);
+        generatePath(radices,digits,parities);
+    }
+
+    public void generatePath(int[] radices, int[] digits, boolean[] parities){
         int noOfPoints = numberOfPoints(radices, 0, 1);
         int x2 = 0, y2 = 0;
         for (int j = 0; j < noOfPoints; j++) {
@@ -55,16 +51,14 @@ public class MurrayPolygonCalculations {
                 y2 += inc;
             }
             Point2D nextPoint = new Point2D.Double(x2, y2);
-            nextSegment.add(nextPoint);
+            path.add(nextPoint);
         }
-
-
     }
 
-    public static ArrayList<Point2D> generatePoints() {
+    public static MurrayPolygonCalculations generateMurrayPolygon() {
         int[] xRadices = new int[]{3, 5};
         int[] yRadices = new int[]{5, 5};
-        return new MurrayPolygonCalculations(2, 2, xRadices, yRadices).getNextSegment();
+        return new MurrayPolygonCalculations(2, 2, xRadices, yRadices);
     }
 
     int numberOfPoints(int[] radices, int start, int increment) {
@@ -75,7 +69,7 @@ public class MurrayPolygonCalculations {
         return res;
     }
 
-    void getRadices(int[] radices, int xRadix, int yRadix) {
+    void getRadices(int[] radices, int xRadix, int yRadix, int[] xRadices, int[]yRadices) {
         PrimitiveIterator.OfInt xRadixIterator = Arrays.stream(xRadices).iterator();
         for (int i = 0; i < (2 * xRadix); i += 2) {
             radices[i] = xRadixIterator.nextInt();
@@ -114,7 +108,7 @@ public class MurrayPolygonCalculations {
                 2,
                 new int[]{3, 5},
                 new int[]{5, 5});
-        f.getNextSegment().forEach(x -> System.out.println("x: " + x.getX() + ",y: " + x.getY()));
+        f.path.forEach(x -> System.out.println("x: " + x.getX() + ",y: " + x.getY()));
     }
 
 }

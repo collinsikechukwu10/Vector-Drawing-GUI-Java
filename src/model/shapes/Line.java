@@ -16,4 +16,5 @@ public class Line extends GenericShape {
     public void setEndPoint(Point2D endPoint, boolean shiftDown) {
         setEndPoint(endPoint);
     }
+
 }

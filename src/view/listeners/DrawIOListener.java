@@ -1,19 +1,40 @@
-package view.io;
+package view.listeners;
 
-import controller.DrawingAreaController;
+import controller.DrawAreaController;
 import model.shapes.generic.GenericShape;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JFileChooser;
 import java.awt.event.ActionListener;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+
+
 import java.util.List;
 
-public class DrawingImporterExporter {
-    DrawingAreaController drawingAreaController;
-    public DrawingImporterExporter(DrawingAreaController drawingAreaController){
-        this.drawingAreaController = drawingAreaController;
+/**
+ * Draw IO Listener class.
+ * This class generates all the listeners needed to store and retrieve drawn shapes.
+ *
+ * @author 210032207
+ */
+public class DrawIOListener {
+    DrawAreaController drawAreaController;
+
+    public DrawIOListener(DrawAreaController drawAreaController) {
+        this.drawAreaController = drawAreaController;
     }
 
+    /**
+     * Generates a file save listener to be used by a "Save" button.
+     *
+     * @param parent frame to render the file dialog message.
+     * @return file save action listener
+     */
     public ActionListener fileSaveListener(JFrame parent) {
         return actionEvent -> {
             JFileChooser fileChooser = new JFileChooser();
@@ -29,7 +50,7 @@ public class DrawingImporterExporter {
                     try {
                         FileOutputStream fos = new FileOutputStream(fileToSave);
                         ObjectOutputStream oos = new ObjectOutputStream(fos);
-                        oos.writeObject(drawingAreaController.getDrawnShapes());
+                        oos.writeObject(drawAreaController.getDrawnShapes());
                         oos.close();
                     } catch (IOException e) {
                         e.printStackTrace();
@@ -41,6 +62,12 @@ public class DrawingImporterExporter {
 
     }
 
+    /**
+     * Generates a file load listener to be used by a "Load" button.
+     *
+     * @param parent frame to render the file dialog message.
+     * @return file load action listener
+     */
     public ActionListener fileLoadListener(JFrame parent) {
         return actionEvent -> {
             JFileChooser fileChooser = new JFileChooser();
@@ -56,8 +83,8 @@ public class DrawingImporterExporter {
                     FileInputStream fis = new FileInputStream(fileToLoad);
                     ObjectInputStream ois = new ObjectInputStream(fis);
                     List<GenericShape> drawnShapes = (List<GenericShape>) ois.readObject();
-                    drawingAreaController.controlClearShapes();
-                    drawingAreaController.controlSetDrawnShapes(drawnShapes);
+                    drawAreaController.controlClearShapes();
+                    drawAreaController.controlSetDrawnShapes(drawnShapes);
                     // this should clear the drawing area, create  new shapes based on the history object saved
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();

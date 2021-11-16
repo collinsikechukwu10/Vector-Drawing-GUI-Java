@@ -1,7 +1,7 @@
 package view;
 
 import config.ApplicationConfig;
-import controller.DrawingAreaController;
+import controller.DrawAreaController;
 import model.MurrayPolygonCalculations;
 import model.shapes.*;
 import model.shapes.Rectangle;
@@ -10,15 +10,17 @@ import model.shapes.generic.GenericShape;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.*;
-import java.util.ArrayList;
 
+/**
+ * Drawing Area JPanel
+ */
 public class DrawingArea extends JPanel {
-    DrawingAreaController drawingAreaController;
+    DrawAreaController drawAreaController;
 
-    public DrawingArea(DrawingAreaController drawingAreaController) {
+    public DrawingArea(DrawAreaController drawAreaController) {
         super();
         // get drawing functions
-        this.drawingAreaController = drawingAreaController;
+        this.drawAreaController = drawAreaController;
         setSize(ApplicationConfig.DRAWING_AREA_WIDTH, ApplicationConfig.DRAWING_AREA_HEIGHT);
         setBackground(ApplicationConfig.DRAWING_AREA_BACKGROUND);
     }
@@ -62,18 +64,18 @@ public class DrawingArea extends JPanel {
             // to maintain the start path of the murray polygon,
             // we always need to use the bottom right of the boundary
             // created by the start and endpoint to construct it
-            ArrayList<Point2D> murrayPolygonPoints = MurrayPolygonCalculations.generatePoints();
+            MurrayPolygonCalculations murrayPolygon = MurrayPolygonCalculations.generateMurrayPolygon();
+            //weirdly, the murray path is plotted the wrong way so we flip this
             Path2D path2D = new Path2D.Double();
             path2D.moveTo(x, y);
-            double scalefactorX = width / 25;
-            double scalefactorY = height / 15;
-            for (Point2D point : murrayPolygonPoints) {
-                path2D.lineTo(x + point.getX() * scalefactorX, y + point.getY() * scalefactorY);
+            double scaleFactorX = width / murrayPolygon.getWidth();
+            double scaleFactorY = height / murrayPolygon.getHeight();
+            for (Point2D point : murrayPolygon.getPath()) {
+                path2D.lineTo(x + point.getY() * scaleFactorY, y + point.getX() * scaleFactorX);
             }
             shape = path2D.createTransformedShape(AffineTransform.getScaleInstance(1, 1));
-            System.out.println("sx:" + width / 25 + " sy: " + height / 15);
         }
-        // do other post processing like fill or color and such
+        // do other post-processing like fill or color and such
         if (shapeToDraw.isFill()) {
             g2d.setPaint(shapeToDraw.getColor());
             g2d.fill(shape);
@@ -87,8 +89,8 @@ public class DrawingArea extends JPanel {
         super.paint(g);
         // get current shape
         Graphics2D g2d = (Graphics2D) g;
-        if(!drawingAreaController.isEmpty()){
-            for (GenericShape shape : drawingAreaController.getDrawnShapes()) {
+        if (!drawAreaController.isEmpty()) {
+            for (GenericShape shape : drawAreaController.getDrawnShapes()) {
                 shapeDraw(g2d, shape);
             }
         }

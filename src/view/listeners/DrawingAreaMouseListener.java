@@ -1,23 +1,23 @@
 package view.listeners;
 
-import controller.DrawingAreaController;
+import controller.DrawAreaController;
 
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseEvent;
 
 public class DrawingAreaMouseListener extends MouseInputAdapter {
-    DrawingAreaController drawingAreaController;
+    DrawAreaController drawAreaController;
 
-    public DrawingAreaMouseListener(DrawingAreaController drawingAreaController) {
+    public DrawingAreaMouseListener(DrawAreaController drawAreaController) {
         super();
-        this.drawingAreaController = drawingAreaController;
+        this.drawAreaController = drawAreaController;
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
         super.mouseDragged(e);
         // we need to check if shift is activated, if so , snap snappable shapes like rectangles to squares and ellipses to circles
-        drawingAreaController.controlSelectedShapeEndPoint(e.getPoint(),e.isShiftDown());
+        drawAreaController.controlSelectedShapeEndPoint(e.getPoint(), e.isShiftDown());
     }
 
 
@@ -27,17 +27,22 @@ public class DrawingAreaMouseListener extends MouseInputAdapter {
         System.out.println("Pressed");
 
         //create shape
-        if(drawingAreaController.hasBluePrint() && drawingAreaController.getSelectedShape()==null){
-            drawingAreaController.controlInitShape(e.getPoint());
+        if (drawAreaController.hasBluePrint() && drawAreaController.getSelectedShape() == null) {
+            drawAreaController.controlInitShape(e.getPoint());
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         super.mouseReleased(e);
-//        this.drawingAreaController.controlSetBlueprint(null);
+        // this entails that the shape has been fully created, we can add this to the history.
+        drawAreaController.controlDeselect();
+        drawAreaController.controlAppendHistory();
         System.out.println("Released");
-        // we need to deactivate the button
 
+    }
+
+    @Override
+    public void mouseClicked(MouseEvent e) {
     }
 }
