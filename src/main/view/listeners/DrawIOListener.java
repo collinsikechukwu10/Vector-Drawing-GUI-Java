@@ -84,8 +84,11 @@ public class DrawIOListener {
                     FileInputStream fis = new FileInputStream(fileToLoad);
                     ObjectInputStream ois = new ObjectInputStream(fis);
                     List<GenericShape> drawnShapes = (List<GenericShape>) ois.readObject();
+                    // clear shapes
                     drawAreaController.controlClearShapes();
+                    // set drawn shapes to imported  shapes
                     drawAreaController.controlSetDrawnShapes(drawnShapes);
+                    // reset history
                     drawAreaController.controlResetHistory();
                     // this should clear the drawing area, create  new shapes based on the history object saved
                 } catch (IOException | ClassNotFoundException e) {

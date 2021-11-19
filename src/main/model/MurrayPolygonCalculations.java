@@ -41,7 +41,9 @@ public class MurrayPolygonCalculations {
     public void generatePath(int[] radices, int[] digits, boolean[] parities) {
         int noOfPoints = numberOfPoints(radices, 0, 1);
         int x2 = 0, y2 = 0;
-        for (int j = 0; j < noOfPoints; j++) {
+        Point2D nextPoint = new Point2D.Double(x2, y2);
+        path.add(nextPoint);
+        for (int j = 0; j < noOfPoints-1; j++) {
             int i = increment(digits, radices, 0);
             changeParities(parities, i);
             int inc = (parities[i + 1]) ? 1 : -1;
@@ -50,7 +52,7 @@ public class MurrayPolygonCalculations {
             } else {
                 y2 += inc;
             }
-            Point2D nextPoint = new Point2D.Double(x2, y2);
+            nextPoint = new Point2D.Double(x2, y2);
             path.add(nextPoint);
         }
     }
@@ -108,7 +110,7 @@ public class MurrayPolygonCalculations {
                 2,
                 new int[]{3, 5},
                 new int[]{5, 5});
-        f.path.forEach(x -> System.out.println("x: " + x.getX() + ",y: " + x.getY()));
+        f.path.forEach(x -> System.out.println("(" + x.getX() + "," + x.getY() + "),"));
     }
 
 }

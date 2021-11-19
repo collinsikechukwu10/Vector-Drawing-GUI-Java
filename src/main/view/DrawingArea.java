@@ -96,13 +96,19 @@ public class DrawingArea extends JPanel {
             path2D.moveTo(x, y);
             double scaleFactorX = width / murrayPolygon.getWidth();
             double scaleFactorY = height / murrayPolygon.getHeight();
+            System.out.println(scaleFactorX + "  x,y  " + scaleFactorY);
             for (Point2D point : murrayPolygon.getPath()) {
-                path2D.lineTo(x + point.getY() * scaleFactorY, y + point.getX() * scaleFactorX);
+                path2D.lineTo(x  + (point.getY()*scaleFactorX), y +(point.getX()* scaleFactorY)  ) ;
             }
-            shape = path2D.createTransformedShape(AffineTransform.getScaleInstance(1, 1));
+            AffineTransform transform1 = new AffineTransform();
+            transform1.translate(0,path2D.getBounds2D().getCenterY());
+            transform1.scale(1, -1);
+            transform1.translate(0,-path2D.getBounds2D().getCenterY());
+//            transform1.rotate(90.0);
+            shape = path2D.createTransformedShape(transform1);
         }
         // do other post-processing like fill or color and such
-        if (shapeToDraw.isFill()) {
+        if (shapeToDraw.isFill() && !(shapeToDraw instanceof MurrayPolygon||shapeToDraw instanceof Line)) {
             g2d.setPaint(shapeToDraw.getColor());
             g2d.fill(shape);
         } else {
