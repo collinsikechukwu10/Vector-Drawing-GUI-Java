@@ -4,7 +4,11 @@ import model.shapes.generic.ShiftKeyEnabledShape;
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
-
+/**
+ * Rectangle Shape class.
+ *
+ * @author 210032207
+ */
 public class Rectangle extends ShiftKeyEnabledShape {
     /**
      * Constructor initializing with color, fill option, start and end point.

@@ -1,8 +1,14 @@
 package model;
 
 import config.ApplicationConfig;
-import model.shapes.*;
 import model.shapes.generic.GenericShape;
+import model.shapes.Ellipse;
+import model.shapes.Line;
+import model.shapes.Rectangle;
+import model.shapes.Cross;
+import model.shapes.MurrayPolygon;
+import model.shapes.HistoryStack;
+
 
 import java.awt.Color;
 import java.awt.geom.Point2D;
@@ -11,7 +17,6 @@ import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.HashMap;
-import java.util.TreeMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,7 +33,8 @@ public class DrawAreaModel {
     private PropertyChangeSupport notifier;  // tracks and notifies listeners
     private List<GenericShape> drawnShapes = new ArrayList<>();
     private int selectedShapeIndex = -1;
-    private final Map<String, Class<? extends GenericShape>> blueprints = new HashMap<>();
+    private final Map<String, Class<
+            ? extends GenericShape>> blueprints = new HashMap<>();
     private String shapeToPrepare = null;
     private HistoryStack<List<GenericShape>> history;
 
@@ -80,10 +86,6 @@ public class DrawAreaModel {
         return history;
     }
 
-    public void setHistory(HistoryStack<List<GenericShape>> history) {
-        this.history = history;
-    }
-
     /**
      * Performs undo operation.
      */
@@ -112,7 +114,8 @@ public class DrawAreaModel {
     public void addShape(Point2D startPoint) {
         GenericShape shape;
         if (getShapeToPrepare() != null) {
-            Class<? extends GenericShape> bluePrint = blueprints.get(getShapeToPrepare().toLowerCase());
+            Class<
+                    ? extends GenericShape> bluePrint = blueprints.get(getShapeToPrepare().toLowerCase());
             try {
                 // initialize shape with both the start and end point at the same location
                 shape = bluePrint.getConstructor(Color.class, Point2D.class, Point2D.class, boolean.class).newInstance(

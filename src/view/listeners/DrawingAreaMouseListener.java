@@ -5,9 +5,18 @@ import controller.DrawAreaController;
 import javax.swing.event.MouseInputAdapter;
 import java.awt.event.MouseEvent;
 
+/**
+ * Drawing area mouse listener class.
+ * author 210032207
+ */
 public class DrawingAreaMouseListener extends MouseInputAdapter {
-    DrawAreaController drawAreaController;
+    private final DrawAreaController drawAreaController;
 
+    /**
+     * Constructor initializing the mouse listener for the drawing area.
+     *
+     * @param drawAreaController drawing area controller
+     */
     public DrawingAreaMouseListener(DrawAreaController drawAreaController) {
         super();
         this.drawAreaController = drawAreaController;

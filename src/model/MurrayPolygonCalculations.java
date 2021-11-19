@@ -12,12 +12,21 @@ import java.util.PrimitiveIterator;
  * author 210032207
  */
 public class MurrayPolygonCalculations {
-    int width;
-    int height;
-    private final ArrayList<Point2D> path = new ArrayList<Point2D>();
+    /**
+     * Default x radices used in the poster.
+     */
+    public static final int[] DEFAULT_XRADICES = new int[]{3, 5};
+    /**
+     * Default y radices used in the poster.
+     */
+    public static final int[] DEFAULT_YRADICES = new int[]{5, 5};
+    private final int width;
+    private final int height;
+    private final ArrayList<Point2D> path = new ArrayList<>();
 
     /**
      * Get murray polygon width.
+     *
      * @return width
      */
     public int getWidth() {
@@ -26,6 +35,7 @@ public class MurrayPolygonCalculations {
 
     /**
      * Gets murray polygon height.
+     *
      * @return height
      */
     public int getHeight() {
@@ -33,7 +43,8 @@ public class MurrayPolygonCalculations {
     }
 
     /**
-     * Returns coordinates for path to construct murray polygons
+     * Returns coordinates for path to construct murray polygons.
+     *
      * @return list of coordinates
      */
     public ArrayList<Point2D> getPath() {
@@ -95,9 +106,7 @@ public class MurrayPolygonCalculations {
      * @return MurrayPolygonCalculations object
      */
     public static MurrayPolygonCalculations generateMurrayPolygon() {
-        int[] xRadices = new int[]{3, 5};
-        int[] yRadices = new int[]{5, 5};
-        return new MurrayPolygonCalculations(2, 2, xRadices, yRadices);
+        return new MurrayPolygonCalculations(2, 2, DEFAULT_XRADICES, DEFAULT_YRADICES);
     }
 
     /**

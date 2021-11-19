@@ -4,7 +4,6 @@ import config.ApplicationConfig;
 import controller.DrawAreaController;
 import model.DrawAreaModel;
 import view.listeners.DrawIOListener;
-import view.listeners.HistoryListener;
 import view.listeners.DrawingAreaMouseListener;
 
 import javax.swing.JToolBar;
@@ -21,7 +20,10 @@ import javax.swing.JColorChooser;
 import javax.swing.BorderFactory;
 import javax.swing.SwingUtilities;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.beans.PropertyChangeEvent;
@@ -43,6 +45,7 @@ public class VectorDrawingView implements PropertyChangeListener {
     private final JFrame mainFrame;
     private final DrawingArea drawingAreaView;
     private final String multipleShapesSelectedErrorMessage = "You cannot select more than 1 shape to draw";
+    private static final int TOOLBAR_HORIZONTAL_GAP = 8;
 
     /**
      * Constructor to generate view using the draw area model and controller.
@@ -57,7 +60,6 @@ public class VectorDrawingView implements PropertyChangeListener {
         this.drawingAreaView = new DrawingArea(drawAreaController);
 
         // add key and mouse listeners to the gui.
-        mainFrame.addKeyListener(new HistoryListener(drawAreaController));
         drawingAreaView.addMouseListener(new DrawingAreaMouseListener(drawAreaController));
         drawingAreaView.addMouseMotionListener(new DrawingAreaMouseListener(drawAreaController));
 
@@ -99,7 +101,7 @@ public class VectorDrawingView implements PropertyChangeListener {
         JToolBar toolBar = new JToolBar();
         toolBar.setOrientation(SwingConstants.HORIZONTAL);
         FlowLayout toolBarLayout = new FlowLayout();
-        toolBarLayout.setHgap(8);
+        toolBarLayout.setHgap(TOOLBAR_HORIZONTAL_GAP);
         toolBar.setLayout(toolBarLayout);
         // add all the required buttons
         toolBar.add(createLoadButton(controller));
@@ -266,7 +268,7 @@ public class VectorDrawingView implements PropertyChangeListener {
     @Override
     public void propertyChange(PropertyChangeEvent event) {
         SwingUtilities.invokeLater(() -> {
-            System.out.println("[" + event.getPropertyName() + "] old: " + event.getOldValue() + ", new: " + event.getNewValue());
+//            System.out.println("[" + event.getPropertyName() + "] old: " + event.getOldValue() + ", new: " + event.getNewValue());
             getDrawingAreaView().repaint();
         });
     }

@@ -5,6 +5,11 @@ import model.shapes.generic.GenericShape;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+/**
+ * Line Shape class.
+ *
+ * @author 210032207
+ */
 public class Line extends GenericShape {
 
     /**

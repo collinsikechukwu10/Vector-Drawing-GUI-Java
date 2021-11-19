@@ -1,8 +1,8 @@
 package config;
 
 import javax.swing.ImageIcon;
-import java.awt.Color;
 import java.awt.Image;
+import java.awt.Color;
 import java.nio.file.Paths;
 
 /**
@@ -52,9 +52,8 @@ public abstract class ApplicationConfig {
      */
     public static ImageIcon getIcon(String iconName) {
         // we want to lock all icons to a specific default size
-        String filename = "icons/" + iconName.toLowerCase() + ".png";
-        ImageIcon imageIcon = new ImageIcon(Paths.get(filename).toAbsolutePath().toString());
-
+        String filename = "../icons/" + iconName.toLowerCase() + ".png";
+        ImageIcon imageIcon = new ImageIcon(Paths.get("").toAbsolutePath().resolve(filename).toString());
         Image newimg = imageIcon.getImage().getScaledInstance(ICON_WIDTH, ICON_HEIGHT, java.awt.Image.SCALE_SMOOTH);
         return new ImageIcon(newimg);
     }

@@ -13,7 +13,7 @@ public class VectorDrawingMain {
      *
      * @param argv command line arguments
      */
-    public static void main(String argv[]) {
+    public static void main(String[] argv) {
         DrawAreaModel drawAreaModel = new DrawAreaModel();
         DrawAreaController drawAreaController = new DrawAreaController(drawAreaModel);
         new VectorDrawingView(drawAreaModel, drawAreaController);

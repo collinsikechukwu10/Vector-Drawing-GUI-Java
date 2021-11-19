@@ -10,6 +10,7 @@
 - Drawing diagonal crosses.
 - Undo/redo.
 - Different colours.
+- Create JUNIT TEST for Model functionalities.
 
 [ADVANCED]
 - Support for drawing squares and circles. One way of implementing this feature would be
@@ -18,18 +19,17 @@
 - Load and save vector drawings in a format that permits them to be manipulated as vector
   drawings after loading.
 - Add Murray polygons.
-Create JUNIT TEST for all Model functionalities
+
 
 ### Run Code
 
 ~~~
-$ cd CS5001-p4-vector-drawing/
-$ cd src/
+$ cd CS5001-p4-vector-drawing/src/
 $ javac *.java
 $ java VectorDrawingMain
 ~~~
 
-### Run tests
+### To run tests
 
 ~~~
 $ cd CS5001-p4-vector-drawing/

@@ -24,8 +24,13 @@ import java.util.List;
  */
 @SuppressWarnings("unchecked")
 public class DrawIOListener {
-    DrawAreaController drawAreaController;
+    private final DrawAreaController drawAreaController;
 
+    /**
+     * Constructor specifying the controller to use to initialize the listener and link io operations to it.
+     *
+     * @param drawAreaController draw area controller
+     */
     public DrawIOListener(DrawAreaController drawAreaController) {
         this.drawAreaController = drawAreaController;
     }

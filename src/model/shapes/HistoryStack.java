@@ -1,6 +1,5 @@
 package model.shapes;
 
-import java.util.Arrays;
 import java.util.Stack;
 
 /**
@@ -8,6 +7,7 @@ import java.util.Stack;
  * Houses the Undo and Redo Implementations.
  *
  * @author 210032207
+ * @param <T> object type
  */
 public class HistoryStack<T> extends Stack<T> {
     private int undoRedoIndex = -1;

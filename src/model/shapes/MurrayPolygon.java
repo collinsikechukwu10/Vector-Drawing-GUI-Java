@@ -5,6 +5,12 @@ import model.shapes.generic.GenericShape;
 import java.awt.Color;
 import java.awt.geom.Point2D;
 
+/**
+ * Murray Polygon Shape class.
+ * Inspired by Jack Cole.
+ *
+ * @author 210032207
+ */
 public class MurrayPolygon extends GenericShape {
     /**
      * Constructor initializing with color, fill option, start and end point.

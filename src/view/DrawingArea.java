@@ -1,10 +1,7 @@
 package view;
 
 import config.ApplicationConfig;
-import model.shapes.*;
 import controller.DrawAreaController;
-import model.MurrayPolygonCalculations;
-import model.shapes.generic.GenericShape;
 
 import javax.swing.JPanel;
 import java.awt.Shape;
@@ -21,6 +18,14 @@ import java.awt.geom.Area;
 import java.awt.geom.Path2D;
 import java.awt.geom.AffineTransform;
 
+import model.MurrayPolygonCalculations;
+import model.shapes.generic.GenericShape;
+import model.shapes.Ellipse;
+import model.shapes.Rectangle;
+import model.shapes.Line;
+import model.shapes.Cross;
+import model.shapes.MurrayPolygon;
+
 
 /**
  * Drawing Area JPanel.
@@ -29,7 +34,8 @@ import java.awt.geom.AffineTransform;
  * @author 210032207
  */
 public class DrawingArea extends JPanel {
-    DrawAreaController drawAreaController;
+    private final DrawAreaController drawAreaController;
+    private static final double CROSS_THICKNESS_RATIO = 0.35;
 
     /**
      * Constructor initializing the drawing area.
@@ -72,7 +78,7 @@ public class DrawingArea extends JPanel {
             // and then reflect the line on the x axis at the center of the shape.
             // define the thickness of the line, here I used 35% of the smallest
             // dimension of implicit bounds created by the start and end point of the shape
-            BasicStroke stroke = new BasicStroke((int) (0.35 * Math.min(height, width)));
+            BasicStroke stroke = new BasicStroke((int) (CROSS_THICKNESS_RATIO * Math.min(height, width)));
             Shape shape1 = stroke.createStrokedShape(new Line2D.Double(startPoint, endPoint));
             // Since we drew a diagonal line, the reflection of the
             // line on the x axis at its center would make a cross.
