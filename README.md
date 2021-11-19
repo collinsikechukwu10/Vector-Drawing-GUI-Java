@@ -24,7 +24,7 @@ Create JUNIT TEST for all Model functionalities
 
 ~~~
 $ cd CS5001-p4-vector-drawing/
-$ cd src/main
+$ cd src/
 $ javac *.java
 $ java VectorDrawingMain
 ~~~

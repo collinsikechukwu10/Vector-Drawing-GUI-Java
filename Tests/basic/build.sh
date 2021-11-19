@@ -1,2 +1,4 @@
 #!/bin/bash
-javac $(find . -name '*.java')
+JUNITPATH="$TESTDIR"
+FILES=$(find . -name '*.java')
+javac -cp "$JUNITPATH/junit.jar":"$JUNITPATH/hamcrest.jar":. $FILES
