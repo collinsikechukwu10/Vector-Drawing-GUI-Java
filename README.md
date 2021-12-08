@@ -1,5 +1,7 @@
 # Practical 4: Vector Drawing
 
+University of St. Andrews CS5001 Object Oriented Design, Modeling & Programming Course.
+This project features Vector Drawing System using a Java Swing GUI. It uses a Model-View-Controller architectural pattern. 
 
 ### Implemeted Requirements:
 
@@ -29,7 +31,7 @@ $ javac *.java
 $ java VectorDrawingMain
 ~~~
 
-### To run tests
+### To run tests (Using St Andrews stacscheck)
 
 ~~~
 $ cd CS5001-p4-vector-drawing/
