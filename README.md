@@ -26,7 +26,7 @@ This project features Vector Drawing System using a Java Swing GUI. It uses a Mo
 ### Run Code
 
 ~~~
-$ cd CS5001-p4-vector-drawing/src/
+$ cd Vector-Drawing-GUI-Java/src/
 $ javac *.java
 $ java VectorDrawingMain
 ~~~
@@ -34,7 +34,7 @@ $ java VectorDrawingMain
 ### To run tests (Using St Andrews stacscheck)
 
 ~~~
-$ cd CS5001-p4-vector-drawing/
+$ cd Vector-Drawing-GUI-Java/
 $ stacscheck ./Tests
 ~~~
 
