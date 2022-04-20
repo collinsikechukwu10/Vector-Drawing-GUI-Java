@@ -5,21 +5,23 @@ This project features Vector Drawing System using a Java Swing GUI. It uses a Mo
 
 
 ### Basic Features
--[x] Drawing straight lines.
--[x] Drawing rectangles.
--[x] Drawing ellipses.
--[x] Drawing diagonal crosses.
--[x] Undo/redo.
--[x] Different colours.
--[x] Create JUNIT TEST for Model functionalities.
+
+- [x] Drawing straight lines.
+- [x] Drawing rectangles.
+- [x] Drawing ellipses.
+- [x] Drawing diagonal crosses.
+- [x] Undo/redo.
+- [x] Different colours.
+- [x] Create JUNIT TEST for Model functionalities.
 
 ### Advanced Features
--[x] Support for drawing squares and circles. One way of implementing this feature would be
+
+- [x] Support for drawing squares and circles. One way of implementing this feature would be
   using a key (say the Shift key) to lock aspect ratio during the drawing of rectangles and
   ellipses. 
--[x] Load and save vector drawings in a format that permits them to be manipulated as vector
+- [x] Load and save vector drawings in a format that permits them to be manipulated as vector
   drawings after loading.
--[x] Add Murray polygons.
+- [x] Add Murray polygons.
 
 
 ### Run Code
