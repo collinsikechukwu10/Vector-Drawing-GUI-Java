@@ -31,6 +31,8 @@ $ javac *.java
 $ java VectorDrawingMain
 ~~~
 
+![img.png](docs/img.png)
+
 ### To run tests (Using St Andrews stacscheck)
 
 ~~~
